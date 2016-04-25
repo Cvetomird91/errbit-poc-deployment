@@ -23,7 +23,7 @@ Vagrant.configure("2") do |setup|
   setup.vm.define "vm_web" do |vm_web|
 
     vm_web.vm.box = "ubuntu/trusty32"
-   
+
     vm_web.vm.synced_folder "/home/cvetomir/vagrant-box/shared-files", "/var/www"
 	vm_web.vm.network "private_network", ip: "192.168.16.10"
 
@@ -31,8 +31,6 @@ Vagrant.configure("2") do |setup|
 	  vb.memory = "512"
    	  vb.cpus = 1
 	end
-
-    vm_web.ssh.private_key_path = "/home/cvetomir/.ssh/vagrant_private_key_web"
 
     vm_web.vm.provision :shell, :path => "setup_web.sh"
 
