@@ -1,5 +1,4 @@
 Vagrant.configure("2") do |setup|
-
   setup.vm.define "vm_db" do |vm_db|
     vm_db.vm.box = "ubuntu/trusty32"
 
@@ -21,17 +20,15 @@ Vagrant.configure("2") do |setup|
   end
 
   setup.vm.define "vm_web" do |vm_web|
-
     vm_web.vm.box = "ubuntu/trusty32"
 
-    vm_web.vm.synced_folder "/home/cvetomir/vagrant-box/shared-files", "/var/www"
-	vm_web.vm.network "private_network", ip: "192.168.16.10"
+	  vm_web.vm.network "private_network", ip: "192.168.16.10"
 
-	vm_web.vm.provider "virtualbox" do |vb|
+	  vm_web.vm.provider "virtualbox" do |vb|
       vb.name = "errbit_web"
       vb.memory = "512"
       vb.cpus = 1
-	end
+	  end
 
     vm_web.vm.provision :shell, :path => "setup_web.sh"
 
@@ -40,7 +37,5 @@ Vagrant.configure("2") do |setup|
       puppet.manifest_file = "vm_web.pp"
       puppet.options = "--verbose --debug"
     end
-
   end
-
 end
