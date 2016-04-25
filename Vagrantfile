@@ -28,8 +28,9 @@ Vagrant.configure("2") do |setup|
 	vm_web.vm.network "private_network", ip: "192.168.16.10"
 
 	vm_web.vm.provider "virtualbox" do |vb|
-	  vb.memory = "512"
-   	  vb.cpus = 1
+      vb.name = "errbit_web"
+      vb.memory = "512"
+      vb.cpus = 1
 	end
 
     vm_web.vm.provision :shell, :path => "setup_web.sh"
