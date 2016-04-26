@@ -7,6 +7,8 @@ exec {'puppet-stdlib':
 }
 
 class mongo {
+
+  # $mongo_ip = $::ipaddress_eth1
   $mongo_ip = "192.168.10.16"
 
   exec { 'apt-update':
