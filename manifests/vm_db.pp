@@ -1,39 +1,5 @@
-class mongo {
-
-  # $mongo_ip = $::ipaddress_eth1
-  $mongo_ip = "192.168.10.16"
-
-  exec { 'apt-update':
-    command => '/usr/bin/apt-get update',
-  }
-
-  # I didn't install all the mongodb* packages, just the ones I assumed are needed
-  $packages = ['mongodb', 'mongodb-server']
-  package { $packages:
-    ensure => installed,
-    provider => 'apt',
-  }
-
-  file_line {'enable text search':
-    path => '/etc/mongodb.conf',
-    line => 'setParameter=textSearchEnabled=true',
-  }
-
-  file_line {'change_mongo_ip':
-    path => '/etc/mongodb.conf',
-    line => "bind_ip=$mongo_ip",
-    match => "^bind_ip.*",
-  }
-
-  service {'mongodb':
-    ensure => running,
-    enable => true,
-  }
-
-  exec {'restart mongo':
-    command => '/usr/sbin/service mongodb restart',
-  }
-
+$mongo_ip = $::ipaddress_eth1
+class {'mongodb::server':
+  bind_ip => $mongo_ip,
+  set_parameter => 'textSearchEnabled=true',
 }
-
-include mongo
