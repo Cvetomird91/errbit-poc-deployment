@@ -1,11 +1,3 @@
-$module_stdlib = 'puppetlabs-stdlib'
-
-exec {'puppet-stdlib':
-    command => "puppet module install -i /etc/puppet/modules ${module_stdlib}",
-    unless  => "puppet module list | grep ${module_stdlib}",
-    path    => ['/bin', '/opt/puppetlabs/bin', '/usr/bin/', '/usr/local/bin']
-}
-
 class mongo {
 
   # $mongo_ip = $::ipaddress_eth1
