@@ -17,3 +17,8 @@ rvm_system_ruby {
   ensure => 'present',
   default_use => true,
 }
+
+package { 'bundle':
+  ensure => installed,
+  provider => 'gem',
+}
