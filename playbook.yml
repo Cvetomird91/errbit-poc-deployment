@@ -4,5 +4,5 @@
       - name: clone errbit repository
         git: repo=http://github.com/errbit/errbit dest=/home/vagrant/errbit/
 
-      - name: bundle install
-        bundler: state=present gemfile=/home/vagrant/errbit/Gemfile
+      - name: install gem dependencies
+        shell: bundle install chdir=/home/vagrant/errbit/
