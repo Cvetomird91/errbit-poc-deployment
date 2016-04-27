@@ -5,4 +5,9 @@
         git: repo=http://github.com/errbit/errbit dest=/home/vagrant/errbit/
 
       - name: install gem dependencies
-        shell: bundle install chdir=/home/vagrant/errbit/
+        shell: bundle install
+        args:
+            executable: /bin/bash -l
+            chdir: /home/vagrant/errbit/
+
+# http://stackoverflow.com/questions/25749698/ansible-run-command-with-an-updated-path
