@@ -1,0 +1,19 @@
+- hosts: all
+  remote_user: vagrant
+  tasks:
+      - name: clone errbit repository
+        git: repo=http://github.com/errbit/errbit dest=/home/vagrant/errbit/
+
+      - name: get ruby version
+        shell: ruby --version
+
+      - name: set gem dir in user path
+        shell: PATH="`ruby -e 'puts Gem.user_dir'`/bin:$PATH"
+
+      - name: ensure json-1.8.3 gem is installed
+        gem: name=json version=1.8.3
+        become: yes
+        become_user: vagrant
+
+      - name: bundle install
+        bundler: state=present chdir=/home/vagrant/errbit/
