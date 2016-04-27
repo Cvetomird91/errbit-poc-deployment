@@ -22,7 +22,7 @@ Vagrant.configure("2") do |setup|
   setup.vm.define "vm_web" do |vm_web|
     vm_web.vm.box = "ubuntu/trusty32"
 
-	  vm_web.vm.network "private_network", type: "dhcp"
+    vm_web.vm.network "private_network", type: "dhcp"
 
     vm_web.vm.provider "virtualbox" do |vb|
       vb.name = "errbit_web"
@@ -30,7 +30,7 @@ Vagrant.configure("2") do |setup|
       vb.cpus = 1
     end
 
-    #vm_web.vm.provision :shell, :path => "setup_web.sh"
+    vm_web.vm.provision :shell, :path => "setup_web.sh"
 
     vm_web.vm.provision "puppet" do |puppet|
       puppet.manifests_path = "manifests"
