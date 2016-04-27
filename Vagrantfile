@@ -24,18 +24,22 @@ Vagrant.configure("2") do |setup|
 
 	  vm_web.vm.network "private_network", type: "dhcp"
 
-	  vm_web.vm.provider "virtualbox" do |vb|
+    vm_web.vm.provider "virtualbox" do |vb|
       vb.name = "errbit_web"
       vb.memory = "512"
       vb.cpus = 1
-	  end
+    end
 
-    vm_web.vm.provision :shell, :path => "setup_web.sh"
+    #vm_web.vm.provision :shell, :path => "setup_web.sh"
 
     vm_web.vm.provision "puppet" do |puppet|
       puppet.manifests_path = "manifests"
       puppet.manifest_file = "vm_web.pp"
       puppet.options = "--verbose --debug"
+    end
+
+    vm_web.vm.provision "ansible" do |ansible|
+      ansible.playbook = "playbook.yml"
     end
 
   end
