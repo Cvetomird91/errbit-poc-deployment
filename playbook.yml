@@ -4,10 +4,13 @@
       - name: clone errbit repository
         git: repo=http://github.com/errbit/errbit dest=/home/vagrant/errbit/
 
-      - name: install gem dependencies
-        shell: bundle install
+      - name: Install bundle
+        environment:
+                PATH: "{{ ansible_env.PATH }}:/usr/local/rvm/rubies/ruby-2.3.0/bin/:/usr/local/rvm/gems/ruby-2.3.0/bin/"
+        bundler: state=present
         args:
-            executable: /bin/bash -l
-            chdir: /home/vagrant/errbit/
+            chdir: /home/vagrant/errbit
+            executable: /usr/local/rvm/gems/ruby-2.3.0/bin/bundler
 
 # http://stackoverflow.com/questions/25749698/ansible-run-command-with-an-updated-path
+# /usr/local/rvm/gems/ruby-2.3.0/bin/
