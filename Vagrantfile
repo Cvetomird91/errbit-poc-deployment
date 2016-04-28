@@ -1,4 +1,6 @@
-Vagrant.configure("2") do |setup|
+VAGRANT_API_VERSION = "2"
+
+Vagrant.configure(VAGRANT_API_VERSION) do |setup|
   setup.vm.define "vm_db" do |vm_db|
     vm_db.vm.box = "ubuntu/trusty32"
 
@@ -16,6 +18,8 @@ Vagrant.configure("2") do |setup|
       puppet.manifest_file = "vm_db.pp"
       puppet.options = "--verbose --debug"
     end
+
+    vm_web.vm.provision "ansible" do |ansible|; end
 
   end
 
@@ -41,6 +45,6 @@ Vagrant.configure("2") do |setup|
     vm_web.vm.provision "ansible" do |ansible|
       ansible.playbook = "playbook.yml"
     end
-
   end
+
 end
