@@ -19,8 +19,6 @@ Vagrant.configure(VAGRANT_API_VERSION) do |setup|
       puppet.options = "--verbose --debug"
     end
 
-    vm_web.vm.provision "ansible" do |ansible|; end
-
   end
 
   setup.vm.define "vm_web" do |vm_web|
@@ -43,7 +41,8 @@ Vagrant.configure(VAGRANT_API_VERSION) do |setup|
     end
 
     vm_web.vm.provision "ansible" do |ansible|
-      ansible.playbook = "playbook.yml"
+      ansible.playbook = 'playbook.yml'
+      ansible.verbose = 'vvvv'
     end
   end
 
