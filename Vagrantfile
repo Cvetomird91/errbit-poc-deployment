@@ -41,6 +41,10 @@ Vagrant.configure(VAGRANT_API_VERSION) do |setup|
     end
 
     vm_web.vm.provision "ansible" do |ansible|
+      ansible.groups = {
+         'vm_web' => ['vm_web'],
+         'vm_db' => ['vm_db'],
+      }
       ansible.playbook = 'playbook.yml'
       ansible.verbose = 'vvvv'
     end
