@@ -25,7 +25,7 @@ Vagrant.configure(VAGRANT_API_VERSION) do |setup|
     vm_web.vm.box = "ubuntu/trusty32"
 
     vm_web.vm.network "private_network", type: "dhcp"
-    vm_web.vm.network "forwarded_port", guest:80, host: 8089
+    vm_web.vm.network "forwarded_port", guest:3000, host: 8089
 
     vm_web.vm.provider "virtualbox" do |vb|
       vb.name = "errbit_web"
