@@ -1,4 +1,3 @@
 Todos:
-- add auto-install of rvm1 ansible module in playbook in case the module isn't installed yet
 - rename local variable vb in block for defining vm_web VirtualBox settings
-- init empty block for ansible provisioning in vm_db block in order to retrieve vm_db IP with ansible
+- use Nginx to listen on port 80 and redirect on port 3000 where Puma is listening
