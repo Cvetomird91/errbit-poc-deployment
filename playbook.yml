@@ -1,31 +1,19 @@
 - hosts: all
   remote_user: vagrant
-  roles:
-      - rvm_io.rvm1-ruby
 
   tasks:
+
       - name: clone errbit repository
+        sudo: yes
         git: repo=http://github.com/errbit/errbit dest=/home/vagrant/errbit/
 
-      - name: RVM settings
+      - name: install bundle
+        sudo: yes
+        command: 'gem install bundler'
 
-      - name: install json gem
-        gem:
+      - name: install gem dependencies
+        command: 'bundle install'
         args:
-            name: json
-            version: 1.8.3
-            state: present
-            executable: /usr/local/rvm/rubies/ruby-2.3.0/bin/gem
-        # https://github.com/rvm/rvm1-ansible
+            chdir: /home/vagrant/errbit/
 
-      - name: Install gem dependencies for errbit
-      #roles: { role: rvm_io.rvm1-ruby, tags: ruby }
-        environment:
-            PATH: "{{ ansible_env.PATH }}:/usr/local/rvm/rubies/ruby-2.3.0/bin/:/usr/local/rvm/gems/ruby-2.3.0/bin/:/usr/local/rvm/gems/ruby-2.3.0@global/bin:/usr/local/rvm/bin"
-        bundler: state=present
-        args:
-            chdir: /home/vagrant/errbit
-            executable: /usr/local/rvm/gems/ruby-2.3.0/bin/bundler
-
-# http://stackoverflow.com/questions/25749698/ansible-run-command-with-an-updated-path
-# /usr/local/rvm/gems/ruby-2.3.0/bin/
+# http://stackoverflow.com/questions/32025776/how-to-get-ip-address-from-other-host-in-ansible
