@@ -1,6 +1,7 @@
 include ::apt
 
-$packages = ['curl', 'git', 'mongodb-clients', 'ruby2.3', 'ruby-switch']
+$packages = ['curl', 'git', 'mongodb-clients', 'ruby2.3', 'ruby-switch', 'ruby2.3-dev', 'g++',
+			'libxml2', 'libxml2-dev', 'libxslt-dev', 'libcurl4-openssl-dev']
 
 apt::ppa { 'ppa:brightbox/ruby-ng':
 }
