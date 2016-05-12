@@ -28,9 +28,9 @@ Vagrant.configure(VAGRANT_API_VERSION) do |setup|
     vm_web.vm.network "forwarded_port", guest:3000, host: 8089
 
     vm_web.vm.provider "virtualbox" do |vb|
-      vb.name = "errbit_web"
-      vb.memory = "512"
-      vb.cpus = 1
+      vbox_web_settings.name = "errbit_web"
+      vbox_web_settings.memory = "512"
+      vbox_web_settings.cpus = 1
     end
 
     vm_web.vm.provision :shell, :path => "setup_web.sh"
