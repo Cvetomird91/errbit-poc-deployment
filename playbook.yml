@@ -1,19 +1,36 @@
-- hosts: all
+- hosts: vm_web
   remote_user: vagrant
+  vars:
+    app_path: /home/vagrant/errbit
 
   tasks:
 
-      - name: clone errbit repository
-        sudo: yes
-        git: repo=http://github.com/errbit/errbit dest=/home/vagrant/errbit/
+     - name: clone errbit repository
+       git:
+         repo: http://github.com/errbit/errbit
+         dest: "{{ app_path }}"
 
-      - name: install bundle
-        sudo: yes
-        command: 'gem install bundler'
+     - name: install bundle
+       sudo: yes
+       command: 'gem install bundler'
 
-      - name: install gem dependencies
-        command: 'bundle install'
-        args:
-            chdir: /home/vagrant/errbit/
+     - name: install gem dependencies
+       command: 'bundle install'
+       args:
+         chdir: "{{ app_path }}"
 
-# http://stackoverflow.com/questions/32025776/how-to-get-ip-address-from-other-host-in-ansible
+     - name: get database ip
+       lineinfile:
+         dest: "{{ app_path }}/.env.default"
+         regexp: ^MONGO_URL
+         line: MONGO_URL=mongodb://{{ hostvars['vm_db']['ansible_eth1']['ipv4']['address'] }}
+
+     - name: bootstrap errbit
+       command: 'bundle exec rake errbit:bootstrap'
+       args:
+         chdir: "{{ app_path }}"
+
+     - name: start Rails server
+       command: 'bundle exec rails server &'
+       args:
+         chdir: "{{ app_path }}"
