@@ -1,7 +1,18 @@
 include ::apt
 
-$packages = ['curl', 'git', 'mongodb-clients', 'ruby2.3', 'ruby-switch', 'ruby2.3-dev', 'g++',
-			'libxml2', 'libxml2-dev', 'libxslt-dev', 'libcurl4-openssl-dev']
+$packages = [
+				'curl',
+				'git',
+				'mongodb-clients',
+				'ruby2.1',
+				'ruby-switch',
+				'ruby2.1-dev',
+				'g++',
+				'libxml2',
+				'libxml2-dev',
+				'libxslt-dev',
+				'libcurl4-openssl-dev',
+			]
 
 apt::ppa { 'ppa:brightbox/ruby-ng':
 }
@@ -16,16 +27,22 @@ package { $packages:
 }
 
 exec {'use ruby2.3':
-  command => 'sudo ruby-switch --set ruby2.3',
+  command => 'sudo ruby-switch --set ruby2.1',
   path => '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games',
+  require => [
+    Package['ruby1.9.3'],
+    Package['ruby1.9.3-dev'],
+  ],
 }
 
 package { 'ruby1.9.3':
   ensure => 'purged',
+  provider => 'apt',
 }
 
 package { 'ruby1.9.3-dev':
   ensure => 'purged',
+  provider => 'apt',
 }
 
 vcsrepo {'/home/vagrant/errbit':
