@@ -19,6 +19,7 @@ apt::ppa { 'ppa:brightbox/ruby-ng':
 
 exec { 'apt-update':
   command => '/usr/bin/apt-get update'
+  path => '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:',
 }
 
 package { $packages:
