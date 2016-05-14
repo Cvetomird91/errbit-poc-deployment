@@ -1,14 +1,7 @@
 - hosts: vm_web
   remote_user: vagrant
-  vars:
-    app_path: /home/vagrant/errbit
 
   tasks:
-
-     - name: clone errbit repository
-       git:
-         repo: http://github.com/errbit/errbit
-         dest: "{{ app_path }}"
 
      - name: install bundle
        sudo: yes
@@ -17,20 +10,33 @@
      - name: install gem dependencies
        command: 'bundle install'
        args:
-         chdir: "{{ app_path }}"
+         chdir: /home/vagrant/errbit
 
      - name: get database ip
        lineinfile:
-         dest: "{{ app_path }}/.env.default"
+         dest: /home/vagrant/errbit/.env.default
          regexp: ^MONGO_URL
-         line: MONGO_URL=mongodb://{{ hostvars['vm_db']['ansible_eth1']['ipv4']['address'] }}
+         line: "MONGO_URL=mongodb://{{ hostvars['vm_db']['ansible_eth1']['ipv4']['address'] }}"
 
      - name: bootstrap errbit
        command: 'bundle exec rake errbit:bootstrap'
        args:
-         chdir: "{{ app_path }}"
+         chdir: /home/vagrant/errbit
 
      - name: start Rails server
-       command: 'bundle exec rails server &'
+       command: 'bundle exec rails server'
        args:
-         chdir: "{{ app_path }}"
+         chdir: /home/vagrant/errbit
+
+     - name: copy nginx config
+       copy:
+         src: config/default
+         dest: /etc/nginx/sites-available/default
+         mode: 0644
+         user: root
+         group: root
+
+     - name: restart nginx
+       service:
+          name: nginx
+          state: restarted

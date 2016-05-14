@@ -48,6 +48,7 @@ Vagrant.configure(VAGRANT_API_VERSION) do |setup|
       }
       ansible.playbook = 'playbook.yml'
       ansible.verbose = 'vvvv'
+      ansible.limit = 'all'
     end
   end
 
