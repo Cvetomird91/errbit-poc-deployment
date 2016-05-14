@@ -12,6 +12,7 @@ $packages = [
   'libxml2-dev',
   'libxslt-dev',
   'libcurl4-openssl-dev',
+  'nginx',
 ]
 
 apt::ppa { 'ppa:brightbox/ruby-ng':
